@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "tunetoss.",
-  description: "music streaming pp",
+  title: "tunetoss",
+  description: "music streaming app",
 };
 
 export default function RootLayout({
