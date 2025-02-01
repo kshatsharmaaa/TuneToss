@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 "use client";
 import { signOut, useSession} from "next-auth/react";
@@ -7,11 +8,30 @@ import VideoInput from "../components/VideoInput";
 import VideoQueue from "../components/VideoQueue";
 import CurrentlyPlaying from "../components/CurrentlyPlaying";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
+import axios from "axios";
+
+const REFRESH_INTERVAL_MS = 10* 1000;
 
 export default function Dashboard() {
   
   const { data: session } = useSession();
   const router = useRouter();
+
+  async function refreshStreams() {
+    const res = await fetch(`/api/streams/my`, {
+      credentials: "include"
+    })
+  }
+
+  useEffect(()=> {
+    refreshStreams();
+    const interval = setInterval(() => {
+
+    }, REFRESH_INTERVAL_MS)
+  }, []) 
+
+  
 
   const handleShare = () => {
     if (navigator.share) {
@@ -29,6 +49,9 @@ export default function Dashboard() {
     await signOut({ redirect: false }); // Prevent NextAuth from redirecting
     router.push("/"); // Manually redirect to homepage
   };
+
+  
+  
   return (
     <main className="min-h-screen bg-gradient-to-br from-purple-900 via-gray-900 to-black text-white">
       <div className="container mx-auto px-4 py-8">

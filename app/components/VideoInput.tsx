@@ -8,6 +8,8 @@ export default function VideoInput() {
   const [videoUrl, setVideoUrl] = useState("")
   const [previewId, setPreviewId] = useState("")
 
+  
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // Here you would typically send the video URL to your backend

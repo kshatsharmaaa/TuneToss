@@ -4,6 +4,8 @@ import { useState } from "react"
 import { ThumbsUp, ThumbsDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import axios from "axios"
 
 type Video = {
   id: string
@@ -49,9 +51,14 @@ export default function VideoQueue() {
                 downvotes: isUpvote ? video.downvotes : video.downvotes + 1,
               }
             : video,
-        )
-        .sort((a, b) => b.upvotes - b.downvotes - (a.upvotes - a.downvotes)),
-    )
+        ).sort((a, b) => b.upvotes - b.downvotes - (a.upvotes - a.downvotes)))
+
+        fetch("/api/streams/upvote", {
+          method: "POST",
+          body: JSON.stringify({
+            streamId: id
+          })
+        })
   }
 
   return (
