@@ -5,23 +5,24 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 const UpvoteSchema = z.object({
-    streamId : z.string(),
+    streamId: z.string(),
 })
 
-export async function POST(req : NextRequest) {
+export async function POST(req: NextRequest) {
     const session = await getServerSession();
-    // todo you can get rid of the db call here
 
+    // TODO: You can get rid of the db call here 
     const user = await prismaClient.user.findFirst({
         where: {
             email: session?.user?.email ?? ""
         }
     });
-    if(!user) {
+
+    if (!user) {
         return NextResponse.json({
             message: "Unauthenticated"
         }, {
-            status: 403,
+            status: 403
         })
     }
 
@@ -34,7 +35,7 @@ export async function POST(req : NextRequest) {
             }
         });
         return NextResponse.json({
-            message: "done!"
+            message: "Done!"
         })
     } catch(e) {
         return NextResponse.json({
@@ -43,4 +44,5 @@ export async function POST(req : NextRequest) {
             status: 403
         })
     }
+
 }

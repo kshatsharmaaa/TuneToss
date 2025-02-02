@@ -3,11 +3,6 @@
     "development"
   ],
   "hints": {
-    "axe/text-alternatives": [
-      "default",
-      {
-        "frame-title": "off"
-      }
-    ]
+    "axe/text-alternatives": "off"
   }
 }
