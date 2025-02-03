@@ -2,17 +2,11 @@
 import { prismaClient } from "@/app/lib/db";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
 
-const UpvoteSchema = z.object({
-    streamId: z.string(),
-})
-
-export async function POST(req: NextRequest) {
+export async function GET(req: NextRequest) {
     const session = await getServerSession();
-
-    // TODO: You can get rid of the db call here 
-    const user = await prismaClient.user.findFirst({
+     // TODO: You can get rid of the db call here 
+     const user = await prismaClient.user.findFirst({
         where: {
             email: session?.user?.email ?? ""
         }
@@ -26,26 +20,31 @@ export async function POST(req: NextRequest) {
         })
     }
 
-    try {
-        const data = UpvoteSchema.parse(await req.json());
-        await prismaClient.upvote.delete({
-            where: {
-                userId_streamId: {
-                    userId: user.id,
-                    streamId: data.streamId
+    
+    const streams = await prismaClient.stream.findMany({
+        where: {
+            userId: user.id
+        },
+        include: {
+            _count: {
+                select: {
+                    upvotes: true
+                }
+            },
+            upvotes: {
+                where: {
+                    userId: user.id
                 }
             }
-        });
+        }
+    })
+    
 
-        return NextResponse.json({
-            message: "Done!"
-        })
-    } catch(e) {
-        return NextResponse.json({
-            message: "Error while upvoting"
-        }, {
-            status: 403
-        })
-    }
-
+    return NextResponse.json({
+        streams: streams.map(({_count, ...rest}) => ({
+            ...rest,
+            upvotes: _count.upvotes,
+            haveUpvoted: rest.upvotes.length ? true : false
+        }))
+    })
 }
