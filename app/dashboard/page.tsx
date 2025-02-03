@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 import { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
@@ -31,7 +29,7 @@ interface Video {
 
 const REFRESH_INTERVAL_MS = 10 * 1000;
 
-const creatorId = "4994ef5d-646d-4c28-979b-ec9cb9c9ac05"
+const creatorId = "53535e22-d76b-42e0-9cab-a0be0e44b533"
 
 export default function Component() {
   

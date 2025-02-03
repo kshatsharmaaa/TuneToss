@@ -1,22 +1,17 @@
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import { useEffect, useRef, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
-import { ChevronUp, ChevronDown, Play, Share2 } from "lucide-react"
+//@ts-ignore
+import { ChevronUp, ChevronDown, ThumbsDown, Play, Share2, Axis3DIcon } from "lucide-react"
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Appbar } from '../components/Appbar'
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
 import { YT_REGEX } from '../lib/utils'
-
+//@ts-ignore
 import YouTubePlayer from 'youtube-player';
 
 interface Video {
@@ -47,7 +42,6 @@ export default function StreamView({
   const [currentVideo, setCurrentVideo] = useState<Video | null>(null)
   const [loading, setLoading] = useState(false);
   const [playNextLoader, setPlayNextLoader] = useState(false);
-
   const videoPlayerRef = useRef<HTMLDivElement>();
 
   async function refreshStreams() {
@@ -76,7 +70,7 @@ export default function StreamView({
     if (!videoPlayerRef.current) {
         return;
     }
-    const player = YouTubePlayer(videoPlayerRef.current);
+    let player = YouTubePlayer(videoPlayerRef.current);
     
     // 'loadVideoById' is queued until the player is ready to receive API calls.
     player.loadVideoById(currentVideo?.extractedId);
